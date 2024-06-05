@@ -2,15 +2,15 @@
 const BASE_URL = "https://pixabay.com";
 const END_POINT = "/api/";
 
-
-
- export function getImages(keyUser, keyImage) {
+ export function getImages(keyUser, keyImage, currentPageNumber) {
         const params = new URLSearchParams({
             key: keyUser,
             q: keyImage,
             image_type: "photo",
             orientation: 'horizontal',
-            safesearch: 'true',
+          safesearch: 'true',
+          page: `${currentPageNumber}`,
+          per_page: 15,
         });
    console.log("Export BASE_URL GET IMAGE", BASE_URL);
         const url = `${BASE_URL}${END_POINT}?${params}`;

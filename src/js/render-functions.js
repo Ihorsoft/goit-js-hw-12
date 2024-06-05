@@ -41,7 +41,9 @@ export function createGallery(arrObjPicture) {
     }
     
 export function onLoading(element) {
+  console.log("reset style", element);
   element.style.display = 'block';
+  console.log("new style", element.style.display);
 }
 
 

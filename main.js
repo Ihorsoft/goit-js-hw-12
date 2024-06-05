@@ -1,4 +1,5 @@
-import "../css/styles.css"
+import "../css/styles.css";
+import axios from 'axios';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import iziToast from "izitoast";
@@ -8,10 +9,7 @@ import { createGallery } from "./js/render-functions";
 import { onLoading } from "./js/render-functions";
 import { offLoading } from "./js/render-functions";
 
-/* const BASE_URL = "https://pixabay.com";
-const END_POINT = "/api/";
-const keyUser = '43441081-c9c9daac9af91d4227dda2db1';
- */
+
 // +++++++++++++++++++++++++++++++=======================
 
 const formData = {
@@ -33,18 +31,6 @@ offLoading(loader);
     formData[key] = event.target.value;
     return formData.keySearch;
 } 
-
-//++++++++++++++++++++++++==================================
-
-/* function onLoading(element) {
-  element.style.display = 'block';
-} */
-
-//++++++++++++++++++++++++++++++++===========================
-
-/* function offLoading(element) {
-  element.style.display = 'none';
-} */
 
 //++++++++++++++++++++++++++==============================
 
@@ -96,74 +82,7 @@ function handleSubmit(event) {
         
     }  
 
-       
-//+++++++++++++++++++++++++++++=============================
-
-    /* function getImages(keyUser, keyImage) {
-        const params = new URLSearchParams({
-            key: keyUser,
-            q: keyImage,
-            image_type: "photo",
-            orientation: 'horizontal',
-            safesearch: 'true',
-        });
-        const url = `${BASE_URL}${END_POINT}?${params}`;
-      return fetch(url)
-        .then(res => {
-          if (!res.ok) {
-            throw new Error(
-              "Sorry, there are no images matching your search query. Please try again!"
-            );
-           }
-          return res.json();
-        })
-        .catch(error => iziToast.error({message: `${error}`}));
-    } */
-    //+++++++++++++++++++++++===============================
-       
-    /* function createGallery(arrObjPicture) {
-   
-      return arrObjPicture.map(
-        ({
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-        previewURL,
-        largeImageURL,
-      }) =>
-            `<li class="gallery-item">
-  <a class="gallery-link" href="${largeImageURL}">
-    <img
-      class="gallery-image"
-      src="${previewURL}"
-      data-source="${largeImageURL}"
-      alt="${tags}"
-    />
-  </a>
-      <div class = "wrapper">
-                 <div class = "parameters">
-                 <span class ="title">Likes</span>
-                 <span class = "info">${likes}</span>
-                 </div>
-                  <div class = "parameters">
-                 <span class ="title">Views</span>
-                 <span class = "info">${views}</span>
-                 </div>
-                  <div class = "parameters">
-                 <span class ="title">Comments</span>
-                 <span class = "info">${comments}</span>
-                 </div>
-                  <div class = "parameters">
-                 <span class ="title">Downloads</span>
-                 <span class = "info">${downloads}</span>
-                 </div>
-                 </div>
-</li>`).join("");
-    }
-     */
-   
+          
 //+++++++++++++++++++++++++++++===================================
 
 let gallery = new SimpleLightbox('.list a',

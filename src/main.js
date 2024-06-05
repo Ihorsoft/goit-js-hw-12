@@ -12,6 +12,7 @@ const BASE_URL = "https://pixabay.com";
 const END_POINT = "/api/";
 const keyUser = '43441081-c9c9daac9af91d4227dda2db1';
 
+let currentPageNumber = 1;
 const formData = {
     keySearch: "",
   };
@@ -19,26 +20,76 @@ const formData = {
 const form = document.querySelector(".feedback-form");
 const galleryNew = document.querySelector(".list");
 const loader = document.querySelector(".loader");
+const loaderbtn = document.querySelector(".loaderbtn");
+const moreBtn = document.querySelector("button[data-more]");
+// const kartaElement = document.querySelector(".gallery-item");
 form.addEventListener("input", handleInput);
 form.addEventListener("submit", handleSubmit);
+moreBtn.addEventListener("click", fitchPage);
 
 offLoading(loader);
+offLoading(loaderbtn);
+
+
+
+//++++++++++++++++++++++++++=======================
+
+function handleSubmit(event) {
+    currentPageNumber = 1;
+    galleryNew.innerHTML = "";
+    // gallery.refresh();
+    // form.reset();
+    const key = "keySearch";
+     console.log("key elements:", key);
+    formData.keySearch = event.target.keySearch.value;
+
+    
+     handleSubmitNew(event);
+    
+}
+
+
+
+
 
 //++++++++++++++++++++++++++++++=======================
+function fitchPage(event) {
+   
+    onLoading(loaderbtn);
+    currentPageNumber += 1;
+  
+   // console.log("currentPageNumber > 1", Number(currentPageNumber));
+
+
+    handleSubmitNew(event);
+
+    offLoading(loaderbtn);
+   // return currentPageNumber;
+}
+
+
+//++++++++++++++++++++++++++++++========================
 
  function handleInput(event) {
-    const key = event.target.name;
-    formData[key] = event.target.value;
-    return formData.keySearch;
+   // const key = event.target.name;
+   // formData[key] = event.target.value;
+   // return formData.keySearch;
 } 
 
 
 
-function handleSubmit(event) {
-           event.preventDefault();
-           galleryNew.innerHTML = "";
+function handleSubmitNew(event) {
+    event.preventDefault();
+    console.log("currentPageNumber", currentPageNumber )
+    if (currentPageNumber == 1) {
+        console.log("currentPageNumber = 1 ");
+        galleryNew.innerHTML = "";
+    };
+    
+    
            onLoading(loader);
   
+    console.log("keySearch:", formData.keySearch.trim());
            if (formData.keySearch.trim() == "") {
                offLoading(loader);
                return iziToast.error({
@@ -49,8 +100,8 @@ function handleSubmit(event) {
                    progressBarColor: 'black',
                  });
              }
-  console.log("BASE URL in main", BASE_URL);
-    getImages(keyUser, formData.keySearch)
+  
+    getImages(keyUser, formData.keySearch, currentPageNumber)
       .then(data => {
            offLoading(loader);
      
@@ -66,18 +117,30 @@ function handleSubmit(event) {
                 }  
 
            galleryNew.insertAdjacentHTML("beforeend", createGallery(data.hits));
-           gallery.refresh();
-           form.reset();
-           formData.keySearch = '';
+          gallery.refresh();
+          //+++++++++++++++++++================
+          const kartaElement = document.querySelector(".gallery-item");
+          const heightKarta = kartaElement.getBoundingClientRect()
+
+          console.log("Bounding:", heightKarta.height);
+          window.scrollBy({
+              top: heightKarta.height * 2,
+                  //left: 100,
+                  behavior: "smooth",
+                });
+
+          //++++++++++++++++++=================
+          // form.reset();
+         //  formData.keySearch = '';
        })
       .catch(error => {
-           hideLoading(loader);
+           offLoading(loader);
            iziToast.error({
                 message: `${error}`,
            });
        })
       .finally(() => {
-           form.reset();
+          // form.reset();
       });
         
     }  
