@@ -37,10 +37,7 @@ offLoading(loaderbtn);
 function handleSubmit(event) {
     currentPageNumber = 1;
     galleryNew.innerHTML = "";
-    // gallery.refresh();
-    // form.reset();
-    const key = "keySearch";
-     console.log("key elements:", key);
+   
     formData.keySearch = event.target.keySearch.value;
 
     
@@ -49,48 +46,36 @@ function handleSubmit(event) {
 }
 
 
-
-
-
 //++++++++++++++++++++++++++++++=======================
 function fitchPage(event) {
    
     onLoading(loaderbtn);
     currentPageNumber += 1;
   
-   // console.log("currentPageNumber > 1", Number(currentPageNumber));
-
-
-    handleSubmitNew(event);
+      handleSubmitNew(event);
 
     offLoading(loaderbtn);
-   // return currentPageNumber;
-}
+   }
 
 
 //++++++++++++++++++++++++++++++========================
 
  function handleInput(event) {
-   // const key = event.target.name;
-   // formData[key] = event.target.value;
-   // return formData.keySearch;
+   
 } 
-
 
 
 function handleSubmitNew(event) {
     event.preventDefault();
-    console.log("currentPageNumber", currentPageNumber )
+    
     if (currentPageNumber == 1) {
-        console.log("currentPageNumber = 1 ");
+        
         galleryNew.innerHTML = "";
     };
-    
-    
+        
            onLoading(loader);
   
-    console.log("keySearch:", formData.keySearch.trim());
-           if (formData.keySearch.trim() == "") {
+            if (formData.keySearch.trim() == "") {
                offLoading(loader);
                return iziToast.error({
                    message: 'Sorry, there are no images matching your search query. Please try again!',

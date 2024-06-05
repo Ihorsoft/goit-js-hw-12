@@ -12,7 +12,7 @@ const END_POINT = "/api/";
           page: `${currentPageNumber}`,
           per_page: 15,
         });
-   console.log("Export BASE_URL GET IMAGE", BASE_URL);
+   
         const url = `${BASE_URL}${END_POINT}?${params}`;
       return fetch(url)
         .then(res => {
