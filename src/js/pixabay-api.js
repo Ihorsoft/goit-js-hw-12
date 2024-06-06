@@ -1,8 +1,9 @@
 
+import axios from "axios";
 const BASE_URL = "https://pixabay.com";
 const END_POINT = "/api/";
 
- export function getImages(keyUser, keyImage, currentPageNumber) {
+ export async function getImages(keyUser, keyImage, currentPageNumber) {
         const params = new URLSearchParams({
             key: keyUser,
             q: keyImage,
@@ -14,16 +15,17 @@ const END_POINT = "/api/";
         });
    
         const url = `${BASE_URL}${END_POINT}?${params}`;
-      return fetch(url)
-        .then(res => {
-          if (!res.ok) {
-            throw new Error(
-              "Sorry, there are no images matching your search query. Please try again!"
-            );
-           }
-          return res.json();
-        })
-        .catch(error => iziToast.error({message: `${error}`}));
+    //return fetch(url)
+   const res = await axios.get(url);
+       // .then(res =>{{
+         // if (!res.ok) {
+         //   throw new Error(
+         //     "Sorry, there are no images matching your search query. Please try again!"
+         //   );
+         //  }
+          return res.data;
+      //  })
+      //  .catch(error => iziToast.error({message: `${error}`}));
 }
 
     
