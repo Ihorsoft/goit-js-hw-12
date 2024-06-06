@@ -139,6 +139,18 @@ li {
   padding-top: 4px;
 }
 
+.loadermorebtn {
+
+}
+
+.wrapper {
+  display: flex;
+  width: 340px;
+  height: 48px;
+  padding-left: 4px;
+}
+
+/*+++++++++++++++++++=================================*/
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
@@ -148,16 +160,6 @@ li {
     transform: rotate(360deg);
   }
 }
-.loadermorebtn {
-
-}
-
-
-
-
-
-
-/*+++++++++++++++++++=================================*/
 
 @keyframes rotate {
   0% {
