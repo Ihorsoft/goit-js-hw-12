@@ -1,5 +1,5 @@
 export function createGallery(arrObjPicture) {
-   
+  console.log("totalHits", arrObjPicture.totalHits);
       return arrObjPicture.map(
         ({
         tags,
@@ -9,7 +9,7 @@ export function createGallery(arrObjPicture) {
         downloads,
         previewURL,
         largeImageURL,
-      }) =>
+        }) =>
             `<li class="gallery-item">
   <a class="gallery-link" href="${largeImageURL}">
     <img
@@ -39,14 +39,14 @@ export function createGallery(arrObjPicture) {
                  </div>
 </li>`).join("");
     }
-    
+ //+++++++++++++++++++++++++++======================   
 export function onLoading(element) {
-  console.log("reset style", element);
+ 
   element.style.display = 'block';
-  console.log("new style", element.style.display);
+
 }
 
-
+//+++++++++++++++++++++++++++++++++++===============
 export function offLoading(element) {
   element.style.display = 'none';
 }

@@ -15,36 +15,35 @@ const keyUser = '43441081-c9c9daac9af91d4227dda2db1';
 let currentPageNumber = 1;
 const formData = {
     keySearch: "",
-  };
+};
+const per_page = 15;
 
 const form = document.querySelector(".feedback-form");
 const galleryNew = document.querySelector(".list");
 const loader = document.querySelector(".loader");
 const loaderbtn = document.querySelector(".loaderbtn");
+const loadermorebtn = document.querySelector(".loadermorebtn");
 const moreBtn = document.querySelector("button[data-more]");
-// const kartaElement = document.querySelector(".gallery-item");
 form.addEventListener("input", handleInput);
 form.addEventListener("submit", handleSubmit);
 moreBtn.addEventListener("click", fitchPage);
 
 offLoading(loader);
 offLoading(loaderbtn);
+offLoading(loadermorebtn);
 
 
 
 //++++++++++++++++++++++++++=======================
-
 function handleSubmit(event) {
     currentPageNumber = 1;
     galleryNew.innerHTML = "";
    
     formData.keySearch = event.target.keySearch.value;
 
-    
-     handleSubmitNew(event);
-    
-}
-
+    onLoading(loaderbtn);
+    handleSubmitNew(event);
+  }
 
 //++++++++++++++++++++++++++++++=======================
 function fitchPage(event) {
@@ -54,17 +53,14 @@ function fitchPage(event) {
   
       handleSubmitNew(event);
 
-    offLoading(loaderbtn);
-   }
-
+}
 
 //++++++++++++++++++++++++++++++========================
-
  function handleInput(event) {
    
 } 
 
-
+//++++++++++++++++++++++++++++++++++++=====================
 function handleSubmitNew(event) {
     event.preventDefault();
     
@@ -72,11 +68,11 @@ function handleSubmitNew(event) {
         
         galleryNew.innerHTML = "";
     };
-        
-           onLoading(loader);
+      
+           onLoading(loaderbtn);
   
             if (formData.keySearch.trim() == "") {
-               offLoading(loader);
+               offLoading(loaderbtn);
                return iziToast.error({
                    message: 'Sorry, there are no images matching your search query. Please try again!',
                    position: 'bottomRight',
@@ -85,11 +81,31 @@ function handleSubmitNew(event) {
                    progressBarColor: 'black',
                  });
              }
-  
-    getImages(keyUser, formData.keySearch, currentPageNumber)
+ 
+   //+++++++++++++++++=========================
+   
+    getImages(keyUser, formData.keySearch, currentPageNumber, per_page)
       .then(data => {
-           offLoading(loader);
-     
+          offLoading(loaderbtn);
+          onLoading(loadermorebtn);
+         
+
+         
+          if (data.totalHits <= currentPageNumber * per_page) {
+            
+              offLoading(loadermorebtn);
+             
+              iziToast.error({
+                   message: "We're sorry, but you've reached the end of search results.",
+                   position: 'bottomRight',
+                   messageColor: 'white',
+                   backgroundColor: 'red',
+                   progressBarColor: 'black',
+                 });
+              "We're sorry, but you've reached the end of search results."
+          }
+
+         
            if (data.hits.length === 0) {   
                 offLoading(loader);
                 return iziToast.error({
@@ -103,20 +119,16 @@ function handleSubmitNew(event) {
 
            galleryNew.insertAdjacentHTML("beforeend", createGallery(data.hits));
           gallery.refresh();
-          //+++++++++++++++++++================
+          
           const kartaElement = document.querySelector(".gallery-item");
           const heightKarta = kartaElement.getBoundingClientRect()
 
-          console.log("Bounding:", heightKarta.height);
-          window.scrollBy({
+            window.scrollBy({
               top: heightKarta.height * 2,
-                  //left: 100,
-                  behavior: "smooth",
+              behavior: "smooth",
                 });
 
-          //++++++++++++++++++=================
-          // form.reset();
-         //  formData.keySearch = '';
+                
        })
       .catch(error => {
            offLoading(loader);
@@ -125,13 +137,11 @@ function handleSubmitNew(event) {
            });
        })
       .finally(() => {
-          // form.reset();
+         
       });
         
     }  
 
-      
-   
 //+++++++++++++++++++++++++++++===================================
 
 let gallery = new SimpleLightbox('.list a',
