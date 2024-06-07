@@ -41,7 +41,7 @@ function handleSubmit(event) {
    
     formData.keySearch = event.target.keySearch.value;
 
-    onLoading(loaderbtn);
+    // onLoading(loaderbtn);
     handleSubmitNew(event);
   }
 
@@ -74,7 +74,7 @@ function handleSubmitNew(event) {
             if (formData.keySearch.trim() == "") {
                offLoading(loaderbtn);
                return iziToast.error({
-                   message: 'Sorry, there are no images matching your search query. Please try again!',
+                   message: 'Sorry, there is no search request. You must enter a keyword.',
                    position: 'bottomRight',
                    messageColor: 'white',
                    backgroundColor: 'red',
@@ -91,7 +91,7 @@ function handleSubmitNew(event) {
          
 
          
-          if (data.totalHits <= currentPageNumber * per_page) {
+          if (data.totalHits <= currentPageNumber * per_page && data.hits.length > 0) {
             
               offLoading(loadermorebtn);
              
@@ -102,14 +102,15 @@ function handleSubmitNew(event) {
                    backgroundColor: 'red',
                    progressBarColor: 'black',
                  });
-              "We're sorry, but you've reached the end of search results."
+           
           }
 
          
            if (data.hits.length === 0) {   
-                offLoading(loader);
+              offLoading(loader);
+              offLoading(loadermorebtn);
                 return iziToast.error({
-                message: 'Sorry, there are no images matching your search query. Please try again!',
+                message: 'Sorry, there are no images matching your search query, or the search query is incorrect. Please try again!',
                 position: 'bottomRight',
                 messageColor: 'white',
                 backgroundColor: 'red',
